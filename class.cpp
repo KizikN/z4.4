@@ -154,25 +154,11 @@ void Im_number::Pov(Im_number A, int n)
 
 void Im_number::Pov(Im_number A)
 {
-	cout << "n = ";
-	int n;
-	cin >> n;
-	if (n >= 0)
-	{
 		double r = A.Get_ABS(), a = 1;
-		A.New_angle(A.Get_angle() * n);
-		for (int i = 0; i < n; i++)
+		A.New_angle(A.Get_angle() * 2);
+		for (int i = 0; i < 2; i++)
 			a *= r;
 		A.New_ABS(a);
-	}
-	else
-	{
-		A.New_angle(A.Get_angle() * n);
-		double r = A.Get_ABS(), a = 1;
-		for (int i = 0; i > n; i--)
-			a /= r;
-		A.New_ABS(a);
-	}
 }
 
 void Im_number::Radical(Im_number A)
