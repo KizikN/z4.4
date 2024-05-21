@@ -1,4 +1,6 @@
 #pragma once
+#include<iostream>
+using namespace std;
 
 class Im_number
 {
@@ -14,22 +16,21 @@ public:
 	void New_angle(double a) { angle = a; }
 	Im_number& operator = (Im_number&);
 	Im_number& operator = (Im_number&&);
-	void operator << (Im_number);
-	void operator << (bool);
-	void operator >> (Im_number);
-	void operator >> (bool);
 	double Get_ABS() { return ABS; }
 	double Get_angle() { return angle; }
-	void Plus(Im_number, Im_number, Im_number);
-	void Plus(Im_number, Im_number);
-	void Minus(Im_number, Im_number, Im_number);
-	void Minus(Im_number, Im_number);
-	void Product(Im_number, Im_number, Im_number);
-	void Product(Im_number, Im_number);
-	void Division(Im_number, Im_number, Im_number);
-	void Division(Im_number, Im_number);
-	void Pov(Im_number, int);
-	void Pov(Im_number);
-	void Radical(Im_number);
-	void Radical(Im_number, bool);
+
+	friend ostream& operator <<(ostream& os, Im_number& L);
+	friend istream& operator >>(istream& is, Im_number& L);
+	
+	void operator +=(Im_number);
+	
+	void operator -=(Im_number);
+	
+	void operator *=(Im_number);
+	
+	void operator /=(Im_number);
+
+	Im_number* operator ^(int);
+	
+	Im_number* operator!();
 };

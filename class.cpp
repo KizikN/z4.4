@@ -28,159 +28,91 @@ Im_number::Im_number(Im_number&& L)
 	ABS = L.Get_ABS();
 }
 
-void Im_number::operator<<(Im_number L)
+ostream& operator <<(std::ostream& os, Im_number& L)
 {
-	cout << "ABS: " << Get_ABS();
-	cout << "Angel: " << Get_angle();
+	cout << "ABS: " << L.Get_ABS();
+	cout << "\nAngel: " << L.Get_angle() << "\n";
+	return os;
 }
 
-void Im_number::operator<<(bool L)
+istream& operator >>(std::istream& os, Im_number& L)
 {
-	if(L)
-		cout << "ABS: " << Get_ABS();
-	else
-		cout << "Angel: " << Get_angle();
-}
-
-void Im_number::operator>>(Im_number L)
-{
+	double a, b;
 	cout << "ABS = ";
-	cin >> ABS;
+	cin >> a;
 	cout << "Angel = ";
-	cin >> angle;
+	cin >> b;
+	L.New_ABS(a);
+	L.New_angle(b);
+	return os;
 }
 
-void Im_number::operator>>(bool L)
-{
-	if (L)
-	{
-		cout << "ABS = ";
-		cin >> ABS;
-	}
-	else
-	{
-		cout << "Angel = ";
-		cin >> angle;
-	}
-}
 
-void Im_number::Plus(Im_number A, Im_number l1, Im_number l2)
+void Im_number::operator+=(Im_number A)
 {
-	double x = l1.Get_ABS() * cos(l1.Get_angle()) + l2.Get_ABS() * cos(l2.Get_angle());
-	double y = l1.Get_ABS() * sin(l1.Get_angle()) + l2.Get_ABS() * sin(l2.Get_angle());
+	double x = this->Get_ABS() * cos(this->Get_angle()) + A.Get_ABS() * cos(A.Get_angle());
+	double y = this->Get_ABS() * sin(this->Get_angle()) + A.Get_ABS() * sin(A.Get_angle());
 	A.New_angle(atan(y / x));
 	A.New_ABS(sqrt(y * y + x * x));
 }
 
-void Im_number::Plus(Im_number A, Im_number l)
+void Im_number::operator-=(Im_number A)
 {
-	double x = l.Get_ABS() * cos(l.Get_angle()) + A.Get_ABS() * cos(A.Get_angle());
-	double y = l.Get_ABS() * sin(l.Get_angle()) + A.Get_ABS() * sin(A.Get_angle());
+	double x = A.Get_ABS() * cos(A.Get_angle()) - this->Get_ABS() * cos(this->Get_angle());
+	double y = A.Get_ABS() * sin(A.Get_angle()) - this->Get_ABS() * sin(this->Get_angle());
 	A.New_angle(atan(y / x));
 	A.New_ABS(sqrt(y * y + x * x));
 }
 
-void Im_number::Minus(Im_number A, Im_number l1, Im_number l2)
+void Im_number::operator *=(Im_number A)
 {
-	double x = l1.Get_ABS() * cos(l1.Get_angle()) - l2.Get_ABS() * cos(l2.Get_angle());
-	double y = l1.Get_ABS() * sin(l1.Get_angle()) - l2.Get_ABS() * sin(l2.Get_angle());
-	A.New_angle(atan(y / x));
-	A.New_ABS(sqrt(y * y + x * x));
-}
-
-void Im_number::Minus(Im_number A, Im_number l)
-{
-	double x = A.Get_ABS() * cos(A.Get_angle()) - l.Get_ABS() * cos(l.Get_angle());
-	double y = A.Get_ABS() * sin(A.Get_angle()) - l.Get_ABS() * sin(l.Get_angle());
-	A.New_angle(atan(y / x));
-	A.New_ABS(sqrt(y * y + x * x));
-}
-
-void Im_number::Product(Im_number A, Im_number l1, Im_number l2)
-{
-	double a = l1.Get_ABS() * cos(l1.Get_angle()), b = l1.Get_ABS() * sin(l1.Get_angle()), c = l2.Get_ABS() * cos(l2.Get_angle()), d = l2.Get_ABS() * sin(l2.Get_angle());
+	double a = A.Get_ABS() * cos(A.Get_angle()), b = A.Get_ABS() * sin(A.Get_angle()), c = this->Get_ABS() * cos(this->Get_angle()), d = this->Get_ABS() * sin(this->Get_angle());
 	double x = a * c - b * d;
 	double y = a * d + b * c;
 	A.New_angle(atan(y / x));
 	A.New_ABS(sqrt(y * y + x * x));
 }
 
-void Im_number::Product(Im_number A, Im_number l)
+void Im_number::operator /=(Im_number A)
 {
-	double a = A.Get_ABS() * cos(A.Get_angle()), b = A.Get_ABS() * sin(A.Get_angle()), c = l.Get_ABS() * cos(l.Get_angle()), d = l.Get_ABS() * sin(l.Get_angle());
-	double x = a * c - b * d;
-	double y = a * d + b * c;
-	A.New_angle(atan(y / x));
-	A.New_ABS(sqrt(y * y + x * x));
-}
-
-void Im_number::Division(Im_number A, Im_number l1, Im_number l2)
-{
-	double a = l1.Get_ABS() * cos(l1.Get_angle()), b = l1.Get_ABS() * sin(l1.Get_angle()), c = l2.Get_ABS() * cos(l2.Get_angle()), d = l2.Get_ABS() * sin(l2.Get_angle());
+	double a = A.Get_ABS() * cos(A.Get_angle()), b = A.Get_ABS() * sin(A.Get_angle()), c = this->Get_ABS() * cos(this->Get_angle()), d = this->Get_ABS() * sin(this->Get_angle());
 	double x = (a * c + b * d) / (c * c + d * d);
 	double y = (-a * d + b * c) / (c * c + d * d);
 	A.New_angle(atan(y / x));
 	A.New_ABS(sqrt(y * y + x * x));
 }
 
-void Im_number::Division(Im_number A, Im_number l)
-{
-	double a = A.Get_ABS() * cos(A.Get_angle()), b = A.Get_ABS() * sin(A.Get_angle()), c = l.Get_ABS() * cos(l.Get_angle()), d = l.Get_ABS() * sin(l.Get_angle());
-	double x = (a * c + b * d) / (c * c + d * d);
-	double y = (-a * d + b * c) / (c * c + d * d);
-	A.New_angle(atan(y / x));
-	A.New_ABS(sqrt(y * y + x * x));
-}
-
-void Im_number::Pov(Im_number A, int n)
+Im_number* Im_number::operator ^(int n)
 {
 		if (n >= 0)
 		{
-			double r = A.Get_ABS(), a = 1;
-			A.New_angle(A.Get_angle() * n);
+			double r = this->Get_ABS(), a = 1;
+			this->New_angle(this->Get_angle() * n);
 			for (int i = 0; i < n; i++)
 				a *= r;
-			A.New_ABS(a);
+			this->New_ABS(a);
 		}
 		else
 		{
-			A.New_angle(A.Get_angle() * n);
-			double r = A.Get_ABS(), a = 1;
+			this->New_angle(this->Get_angle() * n);
+			double r = this->Get_ABS(), a = 1;
 			for (int i = 0; i > n; i--)
 				a /= r;
-			A.New_ABS(a);
+			this->New_ABS(a);
 		}
+		return this;
 }
 
-void Im_number::Pov(Im_number A)
+Im_number* Im_number::operator !()
 {
-		double r = A.Get_ABS(), a = 1;
-		A.New_angle(A.Get_angle() * 2);
-		for (int i = 0; i < 2; i++)
-			a *= r;
-		A.New_ABS(a);
-}
-
-void Im_number::Radical(Im_number A)
-{
-	A.New_ABS(sqrt(A.Get_ABS()));
-	double an = A.Get_angle() / 2;
-	cout << "Choose an angle:\n 0 - " << an << "\n1 - " << an + M_PI;
+	this->New_ABS(sqrt(this->Get_ABS()));
+	double an = this->Get_angle() / 2;
+	cout << "Choose an angle:\n 0 - " << an << "\n1 - " << an + M_PI << endl;
 	bool ch;
 	cin >> ch;
-	if (ch)
-		A.New_angle(an);
+	if (!ch)
+		this->New_angle(an);
 	else
-		A.New_angle(an + M_PI);
-}
-
-void Im_number::Radical(Im_number A, bool ch)
-{
-	A.New_ABS(sqrt(A.Get_ABS()));
-	double an = A.Get_angle() / 2;
-	cin >> ch;
-	if (ch)
-		A.New_angle(an);
-	else
-		A.New_angle(an + M_PI);
+		this->New_angle(an + M_PI);
+	return this;
 }
